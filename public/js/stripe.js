@@ -6,17 +6,13 @@ const stripe = Stripe('pk_test_HBLX7nHLu6RPRg4BQPoq1UQZ00UY6N1g2F');
 export const bookTour = async tourId => {
   try {
     // 1)Get checkout session from API
-    const session = await axios(
-      `http://localhost:8000/api/v1/bookings/checkout-session/${tourId}`
-    );
-    console.log(session);
+    const session = await axios(`/api/v1/bookings/checkout-session/${tourId}`);
 
     // 2)Create checkout form + charge credit card
     await stripe.redirectToCheckout({
       sessionId: session.data.session.id
     });
   } catch (err) {
-    console.log(err);
     showAlert('error', err);
   }
 };
